@@ -9,6 +9,13 @@ if (isset($_POST['submit'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
+
+    if (empty($email) || empty($password)) {
+        $_SESSION['error'] = 'Email and password are required.';
+        header('Location: ../pages/Auth/login.php');
+        exit();
+    }
+
     $query = "SELECT * FROM `users` WHERE `email` = '$email'";
     $result = mysqli_query($conn, $query);
 
@@ -20,12 +27,12 @@ if (isset($_POST['submit'])) {
             header('Location: ../pages/dashboard.php');
             exit();
         } else {
-            $_SESSION['error'] = 'Incorrect password';
+            $_SESSION['error'] = 'Incorrect password.';
             header('Location: ../pages/Auth/login.php');
             exit();
         }
     } else {
-        $_SESSION['error'] = 'User not found';
+        $_SESSION['error'] = 'User not found.';
         header('Location: ../pages/Auth/login.php');
         exit();
     }

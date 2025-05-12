@@ -1,6 +1,6 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT'] . '/loginSystem/config/commonfunction.php';
-    emailSet();
+    emailSet();  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,31 +15,31 @@
         <div class="flex justify-center mb-6">
             <i class="fas fa-user-shield text-blue-600 text-4xl"></i>
         </div>
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Admin Login</h2>
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">User Login</h2>
 
         <?php message(); ?>
 
         <form action="/loginSystem/management/login.php" method="POST">
             <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Admin Email</label>
+                <label for="email" class="block text-sm font-medium text-gray-700">User Email</label>
                 <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500" id="icon-email">
                         <i class="fas fa-envelope"></i>
                     </span>
-                    <input type="email" id="email" name="email" required class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md"/>
+                    <input type="email" id="email" name="email" required class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md" oninput="updateIcon('email')"/>
                 </div>
             </div>
 
             <div class="mb-6">
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500" id="icon-password">
                         <i class="fas fa-lock"></i>
                     </span>
-                    <input type="password" id="password" name="password" required class="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md"/>
-        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 focus:outline-none">
-            <i class="fas fa-eye" id="toggleIcon"></i>
-        </button>
+                    <input type="password" id="password" name="password" required class="pl-10 pr-10 py-2 w-full border border-gray-300 rounded-md" oninput="updateIcon('password')"/>
+                    <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 focus:outline-none">
+                        <i class="fas fa-eye" id="toggleIcon"></i>
+                    </button>
                 </div>
             </div>
 
@@ -48,9 +48,10 @@
             </button>
         </form>
 
-        <!-- <p class="mt-4 text-sm text-center text-gray-500">
-            Not an admin? <a href="/" class="text-indigo-600 hover:underline">Return to site</a>
-        </p> -->
+        <p class="mt-4 text-sm text-center text-gray-500">
+            Don't have an account? <a href="register.php" class="text-indigo-600 hover:underline">Sign up now</a>
+        </p>
+
     </div>
 
     <script>
@@ -61,6 +62,25 @@
         passwordField.setAttribute('type', type);
         icon.classList.toggle('fa-eye');
         icon.classList.toggle('fa-eye-slash');
+    }
+
+    function updateIcon(fieldId) {
+        const icon = document.getElementById(`icon-${fieldId}`);
+        const fieldValue = document.getElementById(fieldId).value;
+
+        if (fieldId === 'email') {
+            if (fieldValue.trim() !== "") {
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+            } else {
+                icon.innerHTML = '<i class="fas fa-envelope"></i>';
+            }
+        } else if (fieldId === 'password') {
+            if (fieldValue.trim() !== "") {
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+            } else {
+                icon.innerHTML = '<i class="fas fa-lock"></i>';
+            }
+        }
     }
     </script>
 </body>
